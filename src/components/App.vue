@@ -1,5 +1,5 @@
 <template>
- <body>
+<body>
   <div class="navbar">
    <div class="logo">
     +
@@ -20,12 +20,12 @@
     <a href="#">
      Help Center
     </a>
-    <div class="user-info">
-     <span>
-      Carlos David
-     </span>
-     <img alt="User profile picture" height="30" src="https://storage.googleapis.com/a1aa/image/HU1V6oyKom5eLq6r3I6fe9Py5v1KXD0QKkfshcTaQletAplcC.jpg" width="30"/>
-    </div>
+   </div>
+   <div class="user-info">
+    <span>
+     Carlos David
+    </span>
+    <img alt="User profile picture" height="30" src="https://storage.googleapis.com/a1aa/image/3fjYcr4hBxyPfk3j6WJMyKAJGvxe83nz1iM01QTkYRlFdbJnA.jpg" width="30"/>
    </div>
   </div>
   <div class="container">
@@ -65,16 +65,14 @@
      </thead>
      <tbody>
       <tr>
-       <td>
-        <div class="doctor-info">
-         <img alt="Doctor profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/xOfy6eygchglgkhmZ6m0IehU9YhJxWxdM5HKYZcyyeQeAplcC.jpg" width="40"/>
-         <div class="text">
-          <span class="name">
-           Brooklyn Simmons
-          </span>
-          <span class="specialty">
-           Dermatologists
-          </span>
+       <td class="doctor-info">
+        <img alt="Doctor profile picture" height="30" src="https://storage.googleapis.com/a1aa/image/dUCDEVs1YNpCPhWLeoOxVKepA7JW1ctseKgSEMdM58cGdbJnA.jpg" width="30"/>
+        <div>
+         <div>
+          Brooklyn Simmons
+         </div>
+         <div>
+          Dermatologists
          </div>
         </div>
        </td>
@@ -90,27 +88,24 @@
        <td>
         21/12/2022 10:40 PM
        </td>
-       <td class="status">
-        <span class="approved">
-         Approved
-        </span>
+       <td class="status-approved">
+        Approved
        </td>
-       <td class="action">
-        <i class="fas fa-arrow-right">
-        </i>
+       <td>
+        <button class="action-button">
+         ->
+        </button>
        </td>
       </tr>
       <tr>
-       <td>
-        <div class="doctor-info">
-         <img alt="Doctor profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/xOfy6eygchglgkhmZ6m0IehU9YhJxWxdM5HKYZcyyeQeAplcC.jpg" width="40"/>
-         <div class="text">
-          <span class="name">
-           Kristin Watson
-          </span>
-          <span class="specialty">
-           Infectious disease
-          </span>
+       <td class="doctor-info">
+        <img alt="Doctor profile picture" height="30" src="https://storage.googleapis.com/a1aa/image/dUCDEVs1YNpCPhWLeoOxVKepA7JW1ctseKgSEMdM58cGdbJnA.jpg" width="30"/>
+        <div>
+         <div>
+          Kristin Watson
+         </div>
+         <div>
+          Infectious disease
          </div>
         </div>
        </td>
@@ -126,27 +121,24 @@
        <td>
         22/12/2022 05:20 PM
        </td>
-       <td class="status">
-        <span class="declined">
-         Declined
-        </span>
+       <td class="status-declined">
+        Declined
        </td>
-       <td class="action">
-        <i class="fas fa-arrow-right">
-        </i>
+       <td>
+        <button class="action-button">
+         ->
+        </button>
        </td>
       </tr>
       <tr>
-       <td>
-        <div class="doctor-info">
-         <img alt="Doctor profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/xOfy6eygchglgkhmZ6m0IehU9YhJxWxdM5HKYZcyyeQeAplcC.jpg" width="40"/>
-         <div class="text">
-          <span class="name">
-           Jacob Jones
-          </span>
-          <span class="specialty">
-           Ophthalmologists
-          </span>
+       <td class="doctor-info">
+        <img alt="Doctor profile picture" height="30" src="https://storage.googleapis.com/a1aa/image/dUCDEVs1YNpCPhWLeoOxVKepA7JW1ctseKgSEMdM58cGdbJnA.jpg" width="30"/>
+        <div>
+         <div>
+          Jacob Jones
+         </div>
+         <div>
+          Ophthalmologists
          </div>
         </div>
        </td>
@@ -162,27 +154,24 @@
        <td>
         23/12/2022 12:40 PM
        </td>
-       <td class="status">
-        <span class="approved">
-         Approved
-        </span>
+       <td class="status-approved">
+        Approved
        </td>
-       <td class="action">
-        <i class="fas fa-arrow-right">
-        </i>
+       <td>
+        <button class="action-button">
+         ->
+        </button>
        </td>
       </tr>
       <tr>
-       <td>
-        <div class="doctor-info">
-         <img alt="Doctor profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/xOfy6eygchglgkhmZ6m0IehU9YhJxWxdM5HKYZcyyeQeAplcC.jpg" width="40"/>
-         <div class="text">
-          <span class="name">
-           Cody Fisher
-          </span>
-          <span class="specialty">
-           Cardiologists
-          </span>
+       <td class="doctor-info">
+        <img alt="Doctor profile picture" height="30" src="https://storage.googleapis.com/a1aa/image/dUCDEVs1YNpCPhWLeoOxVKepA7JW1ctseKgSEMdM58cGdbJnA.jpg" width="30"/>
+        <div>
+         <div>
+          Cody Fisher
+         </div>
+         <div>
+          Cardiologists
          </div>
         </div>
        </td>
@@ -198,27 +187,24 @@
        <td>
         24/12/2022 03:00 PM
        </td>
-       <td class="status">
-        <span class="approved">
-         Approved
-        </span>
+       <td class="status-approved">
+        Approved
        </td>
-       <td class="action">
-        <i class="fas fa-arrow-right">
-        </i>
+       <td>
+        <button class="action-button">
+         ->
+        </button>
        </td>
       </tr>
       <tr>
-       <td>
-        <div class="doctor-info">
-         <img alt="Doctor profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/xOfy6eygchglgkhmZ6m0IehU9YhJxWxdM5HKYZcyyeQeAplcC.jpg" width="40"/>
-         <div class="text">
-          <span class="name">
-           Brooklyn Simmons
-          </span>
-          <span class="specialty">
-           Dermatologists
-          </span>
+       <td class="doctor-info">
+        <img alt="Doctor profile picture" height="30" src="https://storage.googleapis.com/a1aa/image/dUCDEVs1YNpCPhWLeoOxVKepA7JW1ctseKgSEMdM58cGdbJnA.jpg" width="30"/>
+        <div>
+         <div>
+          Brooklyn Simmons
+         </div>
+         <div>
+          Dermatologists
          </div>
         </div>
        </td>
@@ -234,27 +220,24 @@
        <td>
         21/12/2022 10:40 PM
        </td>
-       <td class="status">
-        <span class="approved">
-         Approved
-        </span>
+       <td class="status-approved">
+        Approved
        </td>
-       <td class="action">
-        <i class="fas fa-arrow-right">
-        </i>
+       <td>
+        <button class="action-button">
+         ->
+        </button>
        </td>
       </tr>
       <tr>
-       <td>
-        <div class="doctor-info">
-         <img alt="Doctor profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/xOfy6eygchglgkhmZ6m0IehU9YhJxWxdM5HKYZcyyeQeAplcC.jpg" width="40"/>
-         <div class="text">
-          <span class="name">
-           Kristin Watson
-          </span>
-          <span class="specialty">
-           Infectious disease
-          </span>
+       <td class="doctor-info">
+        <img alt="Doctor profile picture" height="30" src="https://storage.googleapis.com/a1aa/image/dUCDEVs1YNpCPhWLeoOxVKepA7JW1ctseKgSEMdM58cGdbJnA.jpg" width="30"/>
+        <div>
+         <div>
+          Kristin Watson
+         </div>
+         <div>
+          Infectious disease
          </div>
         </div>
        </td>
@@ -270,27 +253,24 @@
        <td>
         22/12/2022 05:20 PM
        </td>
-       <td class="status">
-        <span class="declined">
-         Declined
-        </span>
+       <td class="status-declined">
+        Declined
        </td>
-       <td class="action">
-        <i class="fas fa-arrow-right">
-        </i>
+       <td>
+        <button class="action-button">
+         ->
+        </button>
        </td>
       </tr>
       <tr>
-       <td>
-        <div class="doctor-info">
-         <img alt="Doctor profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/xOfy6eygchglgkhmZ6m0IehU9YhJxWxdM5HKYZcyyeQeAplcC.jpg" width="40"/>
-         <div class="text">
-          <span class="name">
-           Jacob Jones
-          </span>
-          <span class="specialty">
-           Ophthalmologists
-          </span>
+       <td class="doctor-info">
+        <img alt="Doctor profile picture" height="30" src="https://storage.googleapis.com/a1aa/image/dUCDEVs1YNpCPhWLeoOxVKepA7JW1ctseKgSEMdM58cGdbJnA.jpg" width="30"/>
+        <div>
+         <div>
+          Jacob Jones
+         </div>
+         <div>
+          Ophthalmologists
          </div>
         </div>
        </td>
@@ -306,27 +286,24 @@
        <td>
         23/12/2022 12:40 PM
        </td>
-       <td class="status">
-        <span class="approved">
-         Approved
-        </span>
+       <td class="status-approved">
+        Approved
        </td>
-       <td class="action">
-        <i class="fas fa-arrow-right">
-        </i>
+       <td>
+        <button class="action-button">
+         ->
+        </button>
        </td>
       </tr>
       <tr>
-       <td>
-        <div class="doctor-info">
-         <img alt="Doctor profile picture" height="40" src="https://storage.googleapis.com/a1aa/image/xOfy6eygchglgkhmZ6m0IehU9YhJxWxdM5HKYZcyyeQeAplcC.jpg" width="40"/>
-         <div class="text">
-          <span class="name">
-           Cody Fisher
-          </span>
-          <span class="specialty">
-           Cardiologists
-          </span>
+       <td class="doctor-info">
+        <img alt="Doctor profile picture" height="30" src="https://storage.googleapis.com/a1aa/image/dUCDEVs1YNpCPhWLeoOxVKepA7JW1ctseKgSEMdM58cGdbJnA.jpg" width="30"/>
+        <div>
+         <div>
+          Cody Fisher
+         </div>
+         <div>
+          Cardiologists
          </div>
         </div>
        </td>
@@ -342,14 +319,13 @@
        <td>
         24/12/2022 03:00 PM
        </td>
-       <td class="status">
-        <span class="approved">
-         Approved
-        </span>
+       <td class="status-approved">
+        Approved
        </td>
-       <td class="action">
-        <i class="fas fa-arrow-right">
-        </i>
+       <td>
+        <button class="action-button">
+         ->
+        </button>
        </td>
       </tr>
      </tbody>
@@ -359,29 +335,29 @@
  </body>
 </template>
 
+
 <style>
 body {
          font-family: 'Roboto', sans-serif;
-         background-color: #f5f5f5;
          margin: 0;
          padding: 0;
+         background-color: #f5f5f5;
      }
      .navbar {
          background-color: #2d4739;
          padding: 10px 20px;
          display: flex;
          align-items: center;
-         justify-content: space-between;
      }
      .navbar .logo {
          color: white;
          font-size: 24px;
          font-weight: bold;
+         margin-right: 20px;
      }
      .navbar .menu {
          display: flex;
          align-items: center;
-         flex-grow: 1;
      }
      .navbar .menu a {
          color: white;
@@ -389,13 +365,13 @@ body {
          text-decoration: none;
          font-size: 16px;
      }
-     .navbar .menu .user-info {
+     .navbar .user-info {
          display: flex;
          align-items: center;
          margin-left: auto;
          color: white;
      }
-     .navbar .menu .user-info img {
+     .navbar .user-info img {
          border-radius: 50%;
          margin-left: 10px;
      }
@@ -420,74 +396,56 @@ body {
          border: none;
          border-radius: 5px;
          cursor: pointer;
+         font-size: 16px;
      }
      .table-container {
          background-color: white;
-         border-radius: 10px;
          padding: 20px;
+         border-radius: 10px;
          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
      }
-     .table-container table {
+     table {
          width: 100%;
          border-collapse: collapse;
      }
-     .table-container table th, .table-container table td {
+     table th, table td {
          padding: 10px;
-         text-align: center;
+         text-align: left;
      }
-     .table-container table th {
-         background-color: #f5f5f5;
+     table th {
+         background-color: #f0f0f0;
          font-weight: 500;
      }
-     .table-container table td {
-         border-bottom: 1px solid #f5f5f5;
+     table tr:nth-child(even) {
+         background-color: #f9f9f9;
      }
-     .table-container table td img {
-         border-radius: 50%;
-         width: 40px;
-         height: 40px;
-         margin-right: 10px;
-     }
-     .table-container table .status {
-         display: flex;
-         align-items: center;
-         justify-content: center;
-     }
-     .table-container table .status span {
-         padding: 5px 10px;
-         border-radius: 5px;
-         font-size: 14px;
-     }
-     .table-container table .status .approved {
-         background-color: #e0f7e9;
+     .status-approved {
          color: #4CAF50;
+         font-weight: bold;
      }
-     .table-container table .status .declined {
-         background-color: #fdecea;
+     .status-declined {
          color: #f44336;
+         font-weight: bold;
      }
-     .table-container table .action {
-         text-align: center;
-     }
-     .table-container table .action i {
-         color: #4CAF50;
+     .action-icon {
+         color: #888;
          cursor: pointer;
      }
      .doctor-info {
          display: flex;
          align-items: center;
      }
-     .doctor-info .text {
-         display: flex;
-         flex-direction: column;
-         align-items: flex-start;
-         text-align: left;
+     .doctor-info img {
+         border-radius: 50%;
+         margin-right: 10px;
      }
-     .doctor-info .name {
-         font-weight: 500;
-     }
-     .doctor-info .specialty {
+     .action-button {
+         background-color: #efefef;
+         color: rgb(148, 148, 148);
+         border: none;
+         border-radius: 5px;
+         padding: 5px 10px;
+         cursor: pointer;
          font-size: 14px;
-         color: #888;
      }
 </style>
