@@ -1,6 +1,5 @@
 <template>
   <div class="header">
-    <h1>Doctors List</h1>
     <nav>
       <ul>
         <li><a href="#">Home</a></li>
@@ -12,9 +11,9 @@
       </ul>
     </nav>
   </div>
+  <h4>List of doctors</h4>
+  <small>345 available doctors</small>
   <div class="doctors-list">
-    <h2>List of doctors</h2>
-    <p>345 available doctors</p>
     <table>
       <thead>
         <tr>
@@ -86,7 +85,7 @@
 
 <style>
 .header {
-  background-color: #333;
+  background-color: #256d32;
   color: #fff;
   padding: 20px;
   text-align: center;
@@ -123,10 +122,6 @@
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 table {
