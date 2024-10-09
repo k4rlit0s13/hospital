@@ -9,10 +9,12 @@ CREATE TABLE paciente(
 );
 
 CREATE TABLE contacto_paciente(
+    id INT NOT NULL AUTO_INCREMENT,
     paciente_fk INT NOT NULL,
-    tipo Enum('Telefono', 'Celular', 'Correo electronico') NOT NULL,
-    contacto VARCHAR(50) NOT NULL
-    CONSTRAINT UC_contacto_paciente Unique (contacto),
+    tipo ENUM('Telefono', 'Celular', 'Correo electronico') NOT NULL,
+    contacto VARCHAR(50) NOT NULL,
+    CONSTRAINT PK_id PRIMARY KEY(id),
+    CONSTRAINT UC_contacto_paciente UNIQUE (contacto),
     CONSTRAINT FK_contacto_paciente_paciente FOREIGN KEY (paciente_fk) REFERENCES paciente(cedula)
 );
 
@@ -55,9 +57,11 @@ CREATE TABLE cuenta(
 );
 
 CREATE TABLE contacto_hospital(
+    id INT NOT NULL AUTO_INCREMENT,
     hospital_fk INT NOT NULL,
     tipo ENUM('Telefono', 'Celular', 'Correo electronico') NOT NULL,
     contacto VARCHAR(50) NOT NULL,
+    CONSTRAINT PK_id PRIMARY KEY(id),
     CONSTRAINT UC_contacto_hospital UNIQUE (contacto),
     CONSTRAINT FK_contacto_hospital_hospital FOREIGN KEY (hospital_fk) REFERENCES hospital(nit)
 );
@@ -70,7 +74,7 @@ CREATE TABLE especialidad(
 
 CREATE TABLE doctor(
     id INT NOT NULL AUTO_INCREMENT,
-    nombre VARCHAR(50) NOT NULL,
+    nombre VARCHAR( 50) NOT NULL,
     genero VARCHAR(20) NOT NULL,
     especialidad_fk INT NOT NULL,
     fecha_nacimiento DATE NOT NULL,
@@ -79,23 +83,29 @@ CREATE TABLE doctor(
 );
 
 CREATE TABLE contacto_doctor(
+    id INT NOT NULL AUTO_INCREMENT,
     doctor_fk INT NOT NULL,
     tipo ENUM('Telefono', 'Celular', 'Correo electronico') NOT NULL,
     contacto VARCHAR(50) NOT NULL,
-    CONSTRAINT UP_contacto_doctor Unique (contacto),
+    CONSTRAINT PK_id PRIMARY KEY(id),
+    CONSTRAINT UC_contacto_doctor UNIQUE (contacto),
     CONSTRAINT FK_contacto_doctor_doctor FOREIGN KEY (doctor_fk) REFERENCES doctor(id)
 );
 
 CREATE TABLE personal(
+    id INT NOT NULL AUTO_INCREMENT,
     hospital_fk INT NOT NULL,
     doctor_fk INT NOT NULL,
+    CONSTRAINT PK_id PRIMARY KEY(id),
     CONSTRAINT FK_personal_hospital FOREIGN KEY (hospital_fk) REFERENCES hospital(nit),
     CONSTRAINT FK_personal_doctor FOREIGN KEY (doctor_fk) REFERENCES doctor(id)
 );
 
 CREATE TABLE poblacion(
+    id INT NOT NULL AUTO_INCREMENT,
     doctor_fk INT NOT NULL,
     paciente_fk INT NOT NULL,
+    CONSTRAINT PK_id PRIMARY KEY(id),
     CONSTRAINT FK_poblacion_doctor FOREIGN KEY (doctor_fk) REFERENCES doctor(id),
     CONSTRAINT FK_poblacion_paciente FOREIGN KEY (paciente_fk) REFERENCES paciente(cedula)
 );
