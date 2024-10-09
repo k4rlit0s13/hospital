@@ -8,8 +8,15 @@ CREATE TABLE paciente(
     CONSTRAINT PK_cedula PRIMARY KEY(cedula)
 );
 
-CREATE TABLE contacto_paciente(
+CREATE TABLE historial_medico(
     id INT NOT NULL AUTO_INCREMENT,
+    paciente_fk INT NOT NULL,
+    descripcion LONGTEXT NOT NULL,
+    CONSTRAINT PK_id PRIMARY KEY(id),
+    CONSTRAINT FK_historial_medico_paciente FOREIGN KEY (paciente_fk) REFERENCES paciente(cedula)
+);
+
+CREATE TABLE contacto_paciente(
     paciente_fk INT NOT NULL,
     tipo ENUM('Telefono', 'Celular', 'Correo electronico') NOT NULL,
     contacto VARCHAR(50) NOT NULL,
@@ -18,13 +25,6 @@ CREATE TABLE contacto_paciente(
     CONSTRAINT FK_contacto_paciente_paciente FOREIGN KEY (paciente_fk) REFERENCES paciente(cedula)
 );
 
-CREATE TABLE historial_medico(
-    id INT NOT NULL AUTO_INCREMENT,
-    paciente_fk INT NOT NULL,
-    descripcion LONGTEXT NOT NULL,
-    CONSTRAINT PK_id PRIMARY KEY(id),
-    CONSTRAINT FK_historial_medico_paciente FOREIGN KEY (paciente_fk) REFERENCES paciente(cedula)
-);
 
 CREATE TABLE hospital(
     nit INT NOT NULL,

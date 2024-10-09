@@ -1,9 +1,11 @@
+import dotenv from 'dotenv';
 import express from 'express';
 import { createServer } from 'vite';
 import { connectToDatabase } from './server/db/connect/connect.js';
 
+dotenv.config();
 const app = express();
-const PORT = 3000;
+const PORT = process.env.DB_PORT;
 
 async function startServer() {
   const vite = await createServer({ server: { middlewareMode: true } });

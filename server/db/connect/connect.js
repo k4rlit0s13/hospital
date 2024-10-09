@@ -1,11 +1,13 @@
 import mysql from 'mysql2/promise';
+import dotenv from 'dotenv';
 
-// Configura la conexión a MySQL
+dotenv.config();
+
 const connectionConfig = {
-  host: 'localhost',
-  user: 'campus2023', 
-  password: 'campus2023', 
-  database: 'Hospital'
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
 };
 
 export async function connectToDatabase() {
