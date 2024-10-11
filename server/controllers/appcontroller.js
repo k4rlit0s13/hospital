@@ -1,59 +1,35 @@
-const mysql = require('mysql2/promise');
-const dotenv = require('dotenv');
+import { connectToDatabase } from '../db/connect/connect.js';
 
-dotenv.config();
+export async function getDoctors(req, res) {
+  let dbConnection;
 
-const connectionConfig = {
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
-};
-
-class AppController {
-  async connectToDatabase() {
-    try {
-      const connection = await mysql.createConnection(connectionConfig);
-      return connection;
-    } catch (error) {
-      console.error('Error connecting to the database:', error);
-      throw error;
-    }
-  }
-
-  async getDoctores() {
-    const connection = await this.connectToDatabase();
+  try {
+    dbConnection = await connectToDatabase();
     const query = `
       SELECT 
         d.id,
         d.nombre,
+        d.genero,
         e.nombre AS especialidad,
-        d.fecha_nacimiento,
-        c.estado_Pago AS estado
+        cd.tipo,
+        cd.contacto,
+        d.fecha_nacimiento
       FROM 
         doctor d
-      INNER JOIN 
-        especialidad e ON d.especialidad_fk = e.id
-      LEFT JOIN 
-        cuenta c ON d.id = c.doctor_fk
+        INNER JOIN especialidad e ON d.especialidad_fk = e.id
+        INNER JOIN comunicacion_doc cd ON d.id = cd.doctor_fk
+      ORDER BY 
+        d.nombre ASC;
     `;
-    const [rows] = await connection.execute(query);
-    return rows;
-  }
 
-  async getEstadoAprobacion(doctorId) {
-    const connection = await this.connectToDatabase();
-    const query = `
-      SELECT 
-        c.estado_Pago AS estado
-      FROM 
-        cuenta c
-      WHERE 
-        c.doctor_fk = ?
-    `;
-    const [row] = await connection.execute(query, [doctorId]);
-    return row[0].estado;
+    const [rows] = await dbConnection.execute(query);
+    res.json(rows); // Responder con los resultados en formato JSON
+  } catch (error) {
+    console.error('Error fetching doctors:', error);
+    res.status(500).json({ error: 'Failed to fetch doctors' });
+  } finally {
+    if (dbConnection) {
+      await dbConnection.end(); // Cerrar la conexión
+    }
   }
 }
-
-module.exports = AppController;

@@ -5,6 +5,10 @@ npm i
 ```
 npm i express
 ```
+```
+
+npm i mysql
+```
 
 ```
 npm install mysql2
@@ -26,10 +30,8 @@ DB_PORT=3000
 ```
 
 
-<!-- ```
-DB_HOST=localhost
-DB_USER=carlos
-DB_PASSWORD=carlos123
-DB_NAME=Hospital
-DB_PORT=3000
-``` -->
+
+consultas: 
+
+get all doctores API:
+http://localhost:3000/api/v1/doctors
