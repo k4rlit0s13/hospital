@@ -37,6 +37,3 @@
 ├── README.md
 └── vite.config.js
 
-
-contexto, estoy haciendo una app que toma data de una base de datos de mysql workbentch y en un proyecto modelo vista controlador, tengo los siguientes archivos:
-
