@@ -5,6 +5,10 @@ npm i
 ```
 npm i express
 ```
+```
+
+npm i mysql
+```
 
 ```
 npm install mysql2
