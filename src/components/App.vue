@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <body>
     <div class="navbar">
       <div class="logo">+</div>
@@ -69,107 +69,79 @@
               <td class="status-declined">Declined</td>
               <td><button class="action-button">-></button></td>
             </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</template> -->
+
+
+
+
+
+
+
+
+
+
+
+<template>
+  <body>
+    <div class="navbar">
+      <div class="logo">+</div>
+      <div class="menu">
+        <a href="#">Users</a>
+        <a href="#">Patients</a>
+        <a href="#">Hospitals</a>
+        <a href="#">Notice</a>
+        <a href="#">Help Center</a>
+      </div>
+      <div class="user-info">
+        <span>Carlos David</span>
+        <img alt="User   profile picture"
+          src="https://storage.googleapis.com/a1aa/image/3fjYcr4hBxyPfk3j6WJMyKAJGvxe83nz1iM01QTkYRlFdbJnA.jpg" width="30"
+          height="30">
+      </div>
+    </div>
+    <div class="container">
+      <div class="header">
+        <h2>List of Doctors</h2>
+        <button class="add-button">+ Add new doctor</button>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
             <tr>
-              <td class="doctor-info">
-                <img alt="Doctor profile picture"
-                  src="https://storage.googleapis.com/a1aa/image/dUCDEVs1YNpCPhWLeoOxVKepA7JW1ctseKgSEMdM58cGdbJnA.jpg"
-                  width="30" height="30">
-                <div>
-                  <div>Jacob Jones</div>
-                  <div>Ophthalmologists</div>
-                </div>
-              </td>
-              <td>23847569</td>
-              <td>jacobj@mail.com</td>
-              <td>(319) 555-0115</td>
-              <td>23/12/2022 12:40 PM</td>
-              <td class="status-approved">Approved</td>
-              <td><button class="action-button">-></button></td>
+              <th>Name</th>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Phone number</th>
+              <th>Date added</th>
+              <th>STATUS</th>
+              <th></th>
             </tr>
-            <tr>
+          </thead>
+          <tbody>
+            <tr v-for="doctor in doctores" :key="doctor.id">
               <td class="doctor-info">
                 <img alt="Doctor profile picture"
                   src="https://storage.googleapis.com/a1aa/image/dUCDEVs1YNpCPhWLeoOxVKepA7JW1ctseKgSEMdM58cGdbJnA.jpg"
                   width="30" height="30">
                 <div>
-                  <div>Cody Fisher</div>
-                  <div>Cardiologists</div>
+                  <div>{{ doctor.nombre }}</div>
+                  <div>{{ doctor.especialidad }}</div>
                 </div>
               </td>
-              <td>39485632</td>
-              <td>codyf@mail.com</td>
-              <td>(229) 555-0109</td>
-              <td>24/12/2022 03:00 PM</td>
-              <td class="status-approved">Approved</td>
-              <td><button class="action-button">-></button></td>
-            </tr>
-            <tr>
-              <td class="doctor-info">
-                <img alt="Doctor profile picture"
-                  src="https://storage.googleapis.com/a1aa/image/dUCDEVs1YNpCPhWLeoOxVKepA7JW1ctseKgSEMdM58cGdbJnA.jpg"
-                  width="30" height="30">
-                <div>
-                  <div>Brooklyn Simmons</div>
-                  <div>Dermatologists</div>
-                </div>
+              <td>{{ doctor.id }}</td>
+              <td>{{ doctor.email }}</td>
+              <td>{{ doctor.phoneNumber }}</td>
+              <td>{{ doctor.fecha_nacimiento }}</td>
+              <td :class="doctor.estado === 'approved' ? 'approved' : 'declined'">{{ doctor.estado }}</td>
+              <td>
+                <button class="edit-button">Edit</button>
+                <button class="delete-button">Delete</button>
               </td>
-              <td>87364523</td>
-              <td>brooklyns@mail.com</td>
-              <td>(603) 555-0123</td>
-              <td>21/12/2022 10:40 PM</td>
-              <td class="status-approved">Approved</td>
-              <td><button class="action-button">-></button></td>
-            </tr>
-            <tr>
-              <td class="doctor-info">
-                <img alt="Doctor profile picture"
-                  src="https://storage.googleapis.com/a1aa/image/dUCDEVs1YNpCPhWLeoOxVKepA7JW1ctseKgSEMdM58cGdbJnA.jpg"
-                  width="30" height="30">
-                <div>
-                  <div>Kristin Watson</div>
-                  <div>Infectious disease</div>
-                </div>
-              </td>
-              <td>93874563</td>
-              <td>kristinw@mail.com</td>
-              <td>(219) 555-0114</td>
-              <td>22/12/2022 05:20 PM</td>
-              <td class="status-declined">Declined</td>
-              <td><button class="action-button">-></button></td>
-            </tr>
-            <tr>
-              <td class="doctor-info">
-                <img alt="Doctor profile picture"
-                  src="https://storage.googleapis.com/a1aa/image/dUCDEVs1YNpCPhWLeoOxVKepA7JW1ctseKgSEMdM58cGdbJnA.jpg"
-                  width="30" height="30">
-                <div>
-                  <div>Jacob Jones</div>
-                  <div>Ophthalmologists</div>
-                </div>
-              </td>
-              <td>23847569</td>
-              <td>jacobj@mail.com</td>
-              <td>(319) 555-0115</td>
-              <td>23/12/2022 12:40 PM</td>
-              <td class="status-approved">Approved</td>
-              <td><button class="action-button">-></button></td>
-            </tr>
-            <tr>
-              <td class="doctor-info">
-                <img alt="Doctor profile picture"
-                  src="https://storage.googleapis.com/a1aa/image/dUCDEVs1YNpCPhWLeoOxVKepA7JW1ctseKgSEMdM58cGdbJnA.jpg"
-                  width="30" height="30">
-                <div>
-                  <div>Cody Fisher</div>
-                  <div>Cardiologists</div>
-                </div>
-              </td>
-              <td>39485632</td>
-              <td>codyf@mail.com</td>
-              <td>(229) 555-0109</td>
-              <td>24/12/2022 03:00 PM</td>
-              <td class="status-approved">Approved</td>
-              <td><button class="action-button">-></button></td>
             </tr>
           </tbody>
         </table>
@@ -177,6 +149,31 @@
     </div>
   </body>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      doctores: []
+    };
+  },
+  async mounted() {
+    const response = await fetch('/api/doctores');
+    const data = await response.json();
+    this.doctores = data;
+  }
+};
+</script>
+
+
+
+
+
+
+
+
+
+
 
 
 <style>
