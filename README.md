@@ -28,3 +28,10 @@ DB_PASSWORD=campus2023
 DB_NAME=Hospital
 DB_PORT=3000
 ```
+
+
+
+consultas: 
+
+get all doctores API:
+http://localhost:3000/api/v1/doctors
