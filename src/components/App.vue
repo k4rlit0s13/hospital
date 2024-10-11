@@ -1,5 +1,5 @@
-<!-- <template>
-  <body>
+<template>
+  <div>
     <div class="navbar">
       <div class="logo">+</div>
       <div class="menu">
@@ -11,7 +11,7 @@
       </div>
       <div class="user-info">
         <span>Carlos David</span>
-        <img alt="User  profile picture"
+        <img alt="User profile picture"
           src="https://storage.googleapis.com/a1aa/image/3fjYcr4hBxyPfk3j6WJMyKAJGvxe83nz1iM01QTkYRlFdbJnA.jpg" width="30"
           height="30">
       </div>
@@ -27,52 +27,61 @@
             <tr>
               <th>Name</th>
               <th>ID</th>
-              <th>Email</th>
-              <th>Phone number</th>
-              <th>Date added</th>
-              <th>STATUS</th>
+              <th>Email/Phone</th>
+              <th>Specialty</th>
+              <th>Date of Birth</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="doctor-info">
-                <img alt="Doctor profile picture"
-                  src="https://storage.googleapis.com/a1aa/image/dUCDEVs1YNpCPhWLeoOxVKepA7JW1ctseKgSEMdM58cGdbJnA.jpg"
-                  width="30" height="30">
-                <div>
-                  <div>Brooklyn Simmons</div>
-                  <div>Dermatologists</div>
-                </div>
-              </td>
-              <td>87364523</td>
-              <td>brooklyns@mail.com</td>
-              <td>(603) 555-0123</td>
-              <td>21/12/2022 10:40 PM</td>
-              <td class="status-approved">Approved</td>
+            <tr v-for="doctor in doctors" :key="doctor.id">
+              <td>{{ doctor.nombre }}</td>
+              <td>{{ doctor.id }}</td>
+              <td>{{ doctor.contacto }}</td>
+              <td>{{ doctor.especialidad }}</td>
+              <td>{{ formatDate(doctor.fecha_nacimiento) }}</td>
               <td><button class="action-button">-></button></td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-  </body>
+  </div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      doctores: []
+      doctors: [], // Aquí se almacenarán los datos de los doctores
     };
   },
-  async mounted() {
-    const response = await fetch('/api/doctores');
-    const data = await response.json();
-    this.doctores = data;
-  }
+  methods: {
+    // Método para formatear la fecha
+    formatDate(dateString) {
+      const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    },
+    // Método para obtener los doctores desde la API usando fetch
+    async fetchDoctors() {
+      try {
+        const response = await fetch('http://localhost:3000/api/v1/doctors');
+        if (!response.ok) {
+          throw new Error('Failed to fetch doctors');
+        }
+        const data = await response.json(); // Convierte la respuesta en JSON
+        this.doctors = data; // Asigna los datos al arreglo de doctores
+      } catch (error) {
+        console.error('Error fetching doctors:', error);
+      }
+    },
+  },
+  mounted() {
+    this.fetchDoctors(); // Llamada a la API cuando el componente se monta
+  },
 };
 </script>
+
 
 
 
