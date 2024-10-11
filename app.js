@@ -7,17 +7,43 @@ dotenv.config();
 const app = express();
 const PORT = process.env.DB_PORT;
 
+async function fetchDoctors(connection) {
+  const query = `
+    SELECT 
+      d.id,
+      d.nombre,
+      d.genero,
+      e.nombre AS especialidad,
+      cd.tipo,
+      cd.contacto,
+      d.fecha_nacimiento
+    FROM 
+      doctor d
+      INNER JOIN especialidad e ON d.especialidad_fk = e.id
+      INNER JOIN comunicacion_doc cd ON d.id = cd.doctor_fk
+    ORDER BY 
+      d.nombre ASC;
+  `;
+
+  try {
+    const [rows] = await connection.execute(query);
+    console.log('Query results:', rows);
+  } catch (error) {
+    console.error('Error executing query:', error);
+  }
+}
+
 async function startServer() {
   const vite = await createServer({ server: { middlewareMode: true } });
-  
-  app.use(vite.middlewares); // Middleware para servir el frontend
+  app.use(vite.middlewares);
 
-  // Conectar a la base de datos
+  let dbConnection;
   try {
-    await connectToDatabase();
+    dbConnection = await connectToDatabase();
+    await fetchDoctors(dbConnection); // Ejecuta la consulta aquí
   } catch (error) {
     console.error('Failed to connect to database');
-    return; // Detener si falla la conexión a la base de datos
+    return;
   }
 
   app.listen(PORT, () => {
