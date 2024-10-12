@@ -60,39 +60,49 @@
         </div>
         <form @submit.prevent="submitDoctor">
           <div class="form-group">
-            <label for="user-type">User type</label>
-            <select id="user-type">
-              <option>Select user type</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="gender">Gender</label>
-            <select id="gender">
-              <option>Select gender</option>
-            </select>
-          </div>
-          <div class="form-group">
             <label for="first-name">First name</label>
-            <input type="text" id="first-name" placeholder="Your first name" />
+            <input type="text" v-model="newDoctor.nombre" id="first-name" placeholder="Your first name" required />
+            <span v-if="errors.nombre" class="error">{{ errors.nombre }}</span>
           </div>
           <div class="form-group">
             <label for="last-name">Last name</label>
-            <input type="text" id="last-name" placeholder="Your last name" />
+            <input type="text" v-model="newDoctor.apellido" id="last-name" placeholder="Your last name" />
+            <span v-if="errors.apellido" class="error">{{ errors.apellido }}</span>
           </div>
           <div class="form-group">
-            <label for="designation">Designation</label>
-            <input type="text" id="designation" placeholder="Your designation" />
+            <label for="gender">Gender</label>
+            <select v-model="newDoctor.genero" id="gender" required>
+              <option value="">Select gender</option>
+              <option value="Masculino">Masculino</option>
+              <option value="Femenino">Femenino</option>
+            </select>
+            <span v-if="errors.genero" class="error">{{ errors.genero }}</span>
+          </div>
+          <div class="form-group">
+            <label for="designation">Specialty</label>
+            <input type="text" v-model="newDoctor.especialidad_fk" id="designation" placeholder="Specialty ID" required />
+            <span v-if="errors.especialidad_fk" class="error">{{ errors.especialidad_fk }}</span>
           </div>
           <div class="form-group date">
             <label for="dob">Date of birth</label>
-            <input type="text" id="dob" placeholder="Select your date of birth" />
-            <i class="fas fa-calendar-alt date-icon"></i>
+            <input type="date" v-model="newDoctor.fecha_nacimiento" id="dob" required />
+            <span v-if="errors.fecha_nacimiento" class="error">{{ errors.fecha_nacimiento }}</span>
           </div>
           <div class="form-group">
-            <label for="email">Email address</label>
-            <input type="email" id="email" placeholder="Your email" />
+            <label for="contact">Contact (Phone or Email)</label>
+            <input type="text" v-model="newDoctor.contacto" id="contact" placeholder="Your contact" required />
+            <span v-if="errors.contacto" class="error">{{ errors.contacto }}</span>
           </div>
-          <button type="submit" class="btn">SUBMIT</button>
+          <div class="form-group">
+            <label for="contact-type">Contact Type</label>
+            <select v-model="newDoctor.tipo_contacto" id="contact-type" required>
+              <option value="">Select contact type</option>
+              <option value="Telefono">Telefono</option>
+              <option value="Email">Email</option>
+            </select>
+            <span v-if="errors.tipo_contacto" class="error">{{ errors.tipo_contacto }}</span>
+          </div>
+          <button type="submit" class="btn" :disabled="hasErrors">SUBMIT</button>
         </form>
       </div>
     </div>
@@ -104,8 +114,23 @@ export default {
   data() {
     return {
       doctors: [],
-      showModal: false, // Estado para controlar la visibilidad del modal
+      showModal: false, // Controla la visibilidad del modal
+      newDoctor: {
+        nombre: "",
+        apellido: "",
+        genero: "",
+        especialidad_fk: "",
+        fecha_nacimiento: "",
+        tipo_contacto: "",
+        contacto: ""
+      },
+      errors: {}, // Objeto para almacenar los mensajes de error
     };
+  },
+  computed: {
+    hasErrors() {
+      return Object.keys(this.errors).length > 0;
+    }
   },
   methods: {
     formatDate(dateString) {
@@ -124,16 +149,91 @@ export default {
         console.error("Error fetching doctors:", error);
       }
     },
-    submitDoctor() {
-      console.log("Doctor submitted"); // Aquí se puede enviar el formulario a la API
-      this.showModal = false;
+    validateForm() {
+      this.errors = {};
+
+      // Validar nombre
+      if (!this.newDoctor.nombre) {
+        this.errors.nombre = "First name is required";
+      }
+
+      // Validar apellido
+      if (!this.newDoctor.apellido) {
+        this.errors.apellido = "Last name is required";
+      }
+
+      // Validar género
+      if (!this.newDoctor.genero) {
+        this.errors.genero = "Gender is required";
+      }
+
+      // Validar especialidad
+      if (!this.newDoctor.especialidad_fk) {
+        this.errors.especialidad_fk = "Specialty is required";
+      }
+
+      // Validar fecha de nacimiento
+      if (!this.newDoctor.fecha_nacimiento) {
+        this.errors.fecha_nacimiento = "Date of birth is required";
+      }
+
+      // Validar contacto
+      if (!this.newDoctor.contacto) {
+        this.errors.contacto = "Contact is required";
+      }
+
+      // Validar tipo de contacto
+      if (!this.newDoctor.tipo_contacto) {
+        this.errors.tipo_contacto = "Contact type is required";
+      }
+
+      // Si hay errores, retornar falso
+      return Object.keys(this.errors).length === 0;
     },
+    async submitDoctor() {
+      if (this.validateForm()) {
+        try {
+          const response = await fetch("http://localhost:3000/api/v1/newdoctor", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(this.newDoctor) // Enviar los datos del formulario
+          });
+
+          if (!response.ok) {
+            throw new Error("Error adding doctor");
+          }
+
+          const data = await response.json();
+          console.log("Doctor added:", data);
+
+          // Actualizar la lista de doctores después de agregar
+          this.fetchDoctors();
+
+          // Cerrar el modal y resetear el formulario
+          this.showModal = false;
+          this.newDoctor = {
+            nombre: "",
+            apellido: "",
+            genero: "",
+            especialidad_fk: "",
+            fecha_nacimiento: "",
+            tipo_contacto: "",
+            contacto: ""
+          };
+        } catch (error) {
+          console.error("Error adding doctor:", error);
+        }
+      }
+    }
   },
   mounted() {
     this.fetchDoctors();
-  },
+  }
 };
 </script>
+
 
 <style>
 body {
@@ -310,5 +410,11 @@ table tr:nth-child(even) {
   border-radius: 4px;
   cursor: pointer;
   text-align: center;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
 }
 </style>
