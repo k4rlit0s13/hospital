@@ -35,3 +35,20 @@ consultas:
 
 get all doctores API:
 http://localhost:3000/api/v1/doctors
+
+
+crear un nuevo doctor api:
+body:
+{
+  "nombre": "Nuevo Doctor",
+  "genero": "Masculino",
+  "especialidad_fk": 1,
+  "fecha_nacimiento": "1990-01-01",
+  "tipo_contacto": "Telefono",
+  "contacto": "1234567100"
+}
+
+API:
+http://localhost:3000/api/v1/newdoctor
+
+

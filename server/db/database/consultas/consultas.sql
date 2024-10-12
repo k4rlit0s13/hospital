@@ -1,4 +1,4 @@
--- Doctores:
+-- buscar Doctores:
 SELECT 
   d.id,
   d.nombre,
@@ -13,3 +13,11 @@ FROM
   INNER JOIN comunicacion_doc cd ON d.id = cd.doctor_fk
 ORDER BY 
   d.nombre ASC;
+
+
+
+-- crear un nuevo doctor:
+INSERT INTO doctor (nombre, genero, especialidad_fk, fecha_nacimiento)
+VALUES ('Nuevo Doctor', 'Masculino', 1, '1990-01-01');
+INSERT INTO comunicacion_doc (doctor_fk, tipo, contacto)
+VALUES (LAST_INSERT_ID(), 'Telefono', '1234561230');
