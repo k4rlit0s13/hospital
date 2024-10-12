@@ -17,7 +17,7 @@ export async function getDoctors(req, res) {
       FROM 
         doctor d
         INNER JOIN especialidad e ON d.especialidad_fk = e.id
-        INNER JOIN comunicacion_doc cd ON d.id = cd.doctor_fk
+        LEFT JOIN comunicacion_doc cd ON d.id = cd.doctor_fk
       ORDER BY 
         d.nombre ASC;
     `;
