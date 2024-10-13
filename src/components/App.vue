@@ -11,12 +11,9 @@
       </div>
       <div class="user-info">
         <span>Carlos David</span>
-        <img
-          alt="User profile picture"
+        <img alt="User profile picture"
           src="https://storage.googleapis.com/a1aa/image/3fjYcr4hBxyPfk3j6WJMyKAJGvxe83nz1iM01QTkYRlFdbJnA.jpg"
-          width="30"
-          height="30"
-        />
+          width="30" height="30" />
       </div>
     </div>
 
@@ -44,7 +41,9 @@
               <td>{{ doctor.contacto }}</td>
               <td>{{ doctor.especialidad }}</td>
               <td>{{ formatDate(doctor.fecha_nacimiento) }}</td>
-              <td><button class="action-button">-></button></td>
+              <td>
+                <button class="delete-button" @click="deleteDoctor(doctor.id)">Borrar</button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -129,14 +128,17 @@ export default {
   },
   computed: {
     hasErrors() {
-      return Object.keys(this.errors).length > 0;
+      return Object.keys(this.errors).length > 0; // Devuelve true si hay errores
     }
   },
   methods: {
+    // Método para formatear fechas
     formatDate(dateString) {
       const options = { year: "numeric", month: "2-digit", day: "2-digit" };
       return new Date(dateString).toLocaleDateString(undefined, options);
     },
+
+    // Método para obtener la lista de doctores
     async fetchDoctors() {
       try {
         const response = await fetch("http://localhost:3000/api/v1/doctors");
@@ -149,47 +151,39 @@ export default {
         console.error("Error fetching doctors:", error);
       }
     },
-    validateForm() {
-      this.errors = {};
 
-      // Validar nombre
-      if (!this.newDoctor.nombre) {
-        this.errors.nombre = "First name is required";
+    // Método para eliminar un doctor
+    async deleteDoctor(doctorId) {
+      try {
+        const response = await fetch(`http://localhost:3000/api/v1/delete/${doctorId}`, {
+          method: "DELETE"
+        });
+        if (!response.ok) {
+          throw new Error("Error deleting doctor");
+        }
+        const data = await response.json();
+        console.log("Doctor deleted:", data);
+
+        // Actualizar la lista de doctores después de eliminar
+        this.fetchDoctors();
+      } catch (error) {
+        console.error("Error deleting doctor:", error);
       }
-
-      // Validar apellido
-      if (!this.newDoctor.apellido) {
-        this.errors.apellido = "Last name is required";
-      }
-
-      // Validar género
-      if (!this.newDoctor.genero) {
-        this.errors.genero = "Gender is required";
-      }
-
-      // Validar especialidad
-      if (!this.newDoctor.especialidad_fk) {
-        this.errors.especialidad_fk = "Specialty is required";
-      }
-
-      // Validar fecha de nacimiento
-      if (!this.newDoctor.fecha_nacimiento) {
-        this.errors.fecha_nacimiento = "Date of birth is required";
-      }
-
-      // Validar contacto
-      if (!this.newDoctor.contacto) {
-        this.errors.contacto = "Contact is required";
-      }
-
-      // Validar tipo de contacto
-      if (!this.newDoctor.tipo_contacto) {
-        this.errors.tipo_contacto = "Contact type is required";
-      }
-
-      // Si hay errores, retornar falso
-      return Object.keys(this.errors).length === 0;
     },
+
+    // Método para validar el formulario
+    validateForm() {
+      this.errors = {}; // Reiniciar los errores
+      if (!this.newDoctor.nombre) this.errors.nombre = "First name is required.";
+      if (!this.newDoctor.genero) this.errors.genero = "Gender is required.";
+      if (!this.newDoctor.especialidad_fk) this.errors.especialidad_fk = "Specialty ID is required.";
+      if (!this.newDoctor.fecha_nacimiento) this.errors.fecha_nacimiento = "Date of birth is required.";
+      if (!this.newDoctor.contacto) this.errors.contacto = "Contact is required.";
+      if (!this.newDoctor.tipo_contacto) this.errors.tipo_contacto = "Contact type is required.";
+      return Object.keys(this.errors).length === 0; // Devuelve true si no hay errores
+    },
+
+    // Método para agregar un nuevo doctor
     async submitDoctor() {
       if (this.validateForm()) {
         try {
@@ -229,10 +223,11 @@ export default {
     }
   },
   mounted() {
-    this.fetchDoctors();
+    this.fetchDoctors(); // Llamar a la función para obtener la lista de doctores al montar el componente
   }
 };
 </script>
+
 
 
 <style>
@@ -339,33 +334,45 @@ table tr:nth-child(even) {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .modal {
-  background-color: white;
-  padding: 40px;
-  border-radius: 8px;
-  max-width: 600px;
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 400px;
   width: 100%;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
 }
 
 .modal-header h2 {
   margin: 0;
   font-size: 24px;
+}
+
+.close-button {
+  cursor: pointer;
+}
+
+/* Estilos para el formulario */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.error {
+  color: red;
+  font-size: 0.8em;
 }
 
 .close-button {
@@ -412,9 +419,16 @@ table tr:nth-child(even) {
   text-align: center;
 }
 
-.error {
-  color: red;
-  font-size: 12px;
-  margin-top: 5px;
+.delete-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
 }
 </style>
