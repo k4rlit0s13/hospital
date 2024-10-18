@@ -30,6 +30,7 @@ npm install express
 npm install mysql
 npm install mysql2
 npm install dotenv
+npm install express-validator
 ```
 
 ### Configuración de la Base de Datos

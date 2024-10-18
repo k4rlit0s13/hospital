@@ -15,14 +15,18 @@
 │   │           └── estructure.sql
 │   ├── routers/
 │   │   └── approuter.js
+│   ├── validations/
+│   │   └── appvalidation.js
 │   └── versions/
 │       └── appversion.js
 │
 ├── src/
 │   ├── components/
 │   │   └── App.vue
-│   └── Js/
-│       └── main.js
+│   ├── Js/
+│   │   └── main.js
+│   └── storage/
+│       └── img/
 │
 ├── resource/
 │   ├── font/
@@ -36,4 +40,3 @@
 ├── package.json
 ├── README.md
 └── vite.config.js
-
