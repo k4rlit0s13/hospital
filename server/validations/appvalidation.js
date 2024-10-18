@@ -1,5 +1,7 @@
 // appvalidations.js
 import { body } from 'express-validator';
+import rateLimit from 'express-rate-limit';
+
 
 export const validateDoctor = [
   body('nombre')
@@ -38,3 +40,15 @@ export const validateDoctor = [
     .isMobilePhone().withMessage('Must be a valid mobile phone number.')
     .trim().escape()
 ];
+
+
+// appvalidations.js
+
+// Rate limiter middleware
+export const rateLimiter = rateLimit({
+  windowMs: 30 * 1000, // 30 seconds
+  max: 3, // Limit each IP to 3 requests per windowMs
+  message: 'Too many requests, please try again in 15 seconds.', // Message sent when limit is reached
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});

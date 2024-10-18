@@ -12,8 +12,8 @@
       <div class="user-info">
         <span>Carlos David</span>
         <img alt="User profile picture"
-          src="https://storage.googleapis.com/a1aa/image/3fjYcr4hBxyPfk3j6WJMyKAJGvxe83nz1iM01QTkYRlFdbJnA.jpg"
-          width="30" height="30" />
+          src="https://storage.googleapis.com/a1aa/image/3fjYcr4hBxyPfk3j6WJMyKAJGvxe83nz1iM01QTkYRlFdbJnA.jpg" width="30"
+          height="30" />
       </div>
     </div>
 
@@ -22,7 +22,13 @@
         <h2>List of Doctors</h2>
         <button class="add-button" @click="showModal = true">+ Add new doctor</button>
       </div>
-      <div class="table-container">
+
+      <!-- Alert message -->
+      <div v-if="isBlocked" class="alert">
+        <p>{{ alertMessage }}</p>
+      </div>
+
+      <div class="table-container" v-if="!isBlocked">
         <table>
           <thead>
             <tr>
@@ -113,7 +119,7 @@ export default {
   data() {
     return {
       doctors: [],
-      showModal: false, // Controla la visibilidad del modal
+      showModal: false,
       newDoctor: {
         nombre: "",
         apellido: "",
@@ -123,36 +129,48 @@ export default {
         tipo_contacto: "",
         contacto: ""
       },
-      errors: {}, // Objeto para almacenar los mensajes de error
+      errors: {},
+      alertMessage: "",
+      isBlocked: false,
     };
   },
   computed: {
     hasErrors() {
-      return Object.keys(this.errors).length > 0; // Devuelve true si hay errores
+      return Object.keys(this.errors).length > 0;
     }
   },
   methods: {
-    // Método para formatear fechas
     formatDate(dateString) {
       const options = { year: "numeric", month: "2-digit", day: "2-digit" };
       return new Date(dateString).toLocaleDateString(undefined, options);
     },
 
-    // Método para obtener la lista de doctores
     async fetchDoctors() {
       try {
         const response = await fetch("http://localhost:3000/api/v1/doctors");
+
+        // Check if the response status is 429
+        if (response.status === 429) {
+          const text = await response.text(); // Get the response as text
+          this.alertMessage = text; // Set the alert message
+          this.isBlocked = true; // Set blocked state to true
+          return; // Stop further processing
+        }
+
         if (!response.ok) {
           throw new Error("Failed to fetch doctors");
         }
+
         const data = await response.json();
         this.doctors = data;
+        this.alertMessage = ""; // Clear alert message on successful fetch
+        this.isBlocked = false; // Reset blocked state
       } catch (error) {
         console.error("Error fetching doctors:", error);
       }
     },
 
-    // Método para eliminar un doctor
+
     async deleteDoctor(doctorId) {
       try {
         const response = await fetch(`http://localhost:3000/api/v1/delete/${doctorId}`, {
@@ -163,27 +181,23 @@ export default {
         }
         const data = await response.json();
         console.log("Doctor deleted:", data);
-
-        // Actualizar la lista de doctores después de eliminar
         this.fetchDoctors();
       } catch (error) {
         console.error("Error deleting doctor:", error);
       }
     },
 
-    // Método para validar el formulario
     validateForm() {
-      this.errors = {}; // Reiniciar los errores
+      this.errors = {};
       if (!this.newDoctor.nombre) this.errors.nombre = "First name is required.";
       if (!this.newDoctor.genero) this.errors.genero = "Gender is required.";
       if (!this.newDoctor.especialidad_fk) this.errors.especialidad_fk = "Specialty ID is required.";
       if (!this.newDoctor.fecha_nacimiento) this.errors.fecha_nacimiento = "Date of birth is required.";
       if (!this.newDoctor.contacto) this.errors.contacto = "Contact is required.";
       if (!this.newDoctor.tipo_contacto) this.errors.tipo_contacto = "Contact type is required.";
-      return Object.keys(this.errors).length === 0; // Devuelve true si no hay errores
+      return Object.keys(this.errors).length === 0;
     },
 
-    // Método para agregar un nuevo doctor
     async submitDoctor() {
       if (this.validateForm()) {
         try {
@@ -192,7 +206,7 @@ export default {
             headers: {
               "Content-Type": "application/json"
             },
-            body: JSON.stringify(this.newDoctor) // Enviar los datos del formulario
+            body: JSON.stringify(this.newDoctor)
           });
 
           if (!response.ok) {
@@ -201,11 +215,7 @@ export default {
 
           const data = await response.json();
           console.log("Doctor added:", data);
-
-          // Actualizar la lista de doctores después de agregar
           this.fetchDoctors();
-
-          // Cerrar el modal y resetear el formulario
           this.showModal = false;
           this.newDoctor = {
             nombre: "",
@@ -223,7 +233,7 @@ export default {
     }
   },
   mounted() {
-    this.fetchDoctors(); // Llamar a la función para obtener la lista de doctores al montar el componente
+    this.fetchDoctors();
   }
 };
 </script>
@@ -430,5 +440,14 @@ table tr:nth-child(even) {
 
 .delete-button:hover {
   background-color: #c0392b;
+}
+
+.alert {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 15px;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  margin-bottom: 20px;
 }
 </style>

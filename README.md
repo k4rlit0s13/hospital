@@ -31,6 +31,7 @@ npm install mysql
 npm install mysql2
 npm install dotenv
 npm install express-validator
+npm install express-rate-limit
 ```
 
 ### Configuración de la Base de Datos
