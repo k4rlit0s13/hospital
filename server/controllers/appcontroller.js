@@ -1,4 +1,5 @@
 import { connectToDatabase } from '../db/connect/connect.js';
+import { validationResult } from 'express-validator';
 
 class DoctorController {
   // Obtener la lista de doctores
@@ -25,13 +26,13 @@ class DoctorController {
       `;
 
       const [rows] = await dbConnection.execute(query);
-      res.json(rows); // Responder con los resultados en formato JSON
+      res.json(rows);
     } catch (error) {
       console.error('Error fetching doctors:', error);
       res.status(500).json({ error: 'Failed to fetch doctors' });
     } finally {
       if (dbConnection) {
-        dbConnection.release(); // Liberar la conexión de vuelta al pool
+        dbConnection.release();
       }
     }
   }
@@ -40,16 +41,22 @@ class DoctorController {
   static async addDoctor(req, res) {
     let dbConnection;
 
+    // Verificar si hay errores de validación
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
-      const { nombre, genero, especialidad_fk, fecha_nacimiento, tipo_contacto, contacto } = req.body;
+      const { nombre, apellido, genero, especialidad_fk, fecha_nacimiento, tipo_contacto, contacto } = req.body;
 
       dbConnection = await connectToDatabase();
 
       const insertDoctorQuery = `
-        INSERT INTO doctor (nombre, genero, especialidad_fk, fecha_nacimiento)
-        VALUES (?, ?, ?, ?);
+        INSERT INTO doctor (nombre, apellido, genero, especialidad_fk, fecha_nacimiento)
+        VALUES (?, ?, ?, ?, ?);
       `;
-      const [doctorResult] = await dbConnection.execute(insertDoctorQuery, [nombre, genero, especialidad_fk, fecha_nacimiento]);
+      const [doctorResult] = await dbConnection.execute(insertDoctorQuery, [nombre, apellido, genero, especialidad_fk, fecha_nacimiento]);
 
       const insertComunicacionQuery = `
         INSERT INTO comunicacion_doc (doctor_fk, tipo, contacto)
@@ -77,33 +84,27 @@ class DoctorController {
 
       dbConnection = await connectToDatabase();
 
-      // Iniciar una transacción para asegurar la consistencia
       await dbConnection.beginTransaction();
 
-      // Eliminar los registros en la tabla personal que dependen del doctor
       const deletePersonalQuery = `
-      DELETE FROM personal WHERE doctor_fk = ?;
-    `;
+        DELETE FROM personal WHERE doctor_fk = ?;
+      `;
       await dbConnection.execute(deletePersonalQuery, [id]);
 
-      // Eliminar las comunicaciones del doctor
       const deleteComunicacionQuery = `
-      DELETE FROM comunicacion_doc WHERE doctor_fk = ?;
-    `;
+        DELETE FROM comunicacion_doc WHERE doctor_fk = ?;
+      `;
       await dbConnection.execute(deleteComunicacionQuery, [id]);
 
-      // Eliminar el doctor
       const deleteDoctorQuery = `
-      DELETE FROM doctor WHERE id = ?;
-    `;
+        DELETE FROM doctor WHERE id = ?;
+      `;
       await dbConnection.execute(deleteDoctorQuery, [id]);
 
-      // Confirmar la transacción
       await dbConnection.commit();
 
       res.status(200).json({ message: 'Doctor deleted successfully' });
     } catch (error) {
-      // Revertir la transacción en caso de error
       if (dbConnection) {
         await dbConnection.rollback();
       }

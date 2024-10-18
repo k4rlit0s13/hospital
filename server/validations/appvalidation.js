@@ -1,10 +1,11 @@
-const { body } = require('express-validator');
+// appvalidations.js
+import { body } from 'express-validator';
 
-const validateDoctor = [
+export const validateDoctor = [
   body('nombre')
-    .notEmpty().withMessage('First name is required.')
-    .isString().withMessage('First name must be a string.')
-    .isLength({ min: 2 }).withMessage('First name must be at least 2 characters long.')
+    .notEmpty().withMessage('Name is required.')
+    .isString().withMessage('Name must be a string.')
+    .isLength({ min: 2 }).withMessage('Name must be at least 2 characters long.')
     .trim().escape(),
   
   body('apellido')
@@ -14,6 +15,7 @@ const validateDoctor = [
     .trim().escape(),
 
   body('genero')
+    .notEmpty().withMessage('Gender is required.')
     .isIn(['Masculino', 'Femenino', 'O']).withMessage('Gender must be Masculino, Femenino, or O.'),
 
   body('especialidad_fk')
@@ -25,16 +27,14 @@ const validateDoctor = [
     .isDate({ format: 'YYYY-MM-DD' }).withMessage('Date of birth must be in YYYY-MM-DD format.'),
 
   body('tipo_contacto')
+    .notEmpty().withMessage('Contact type is required.')
     .isIn(['Telefono', 'Email']).withMessage('Contact type must be either Telefono or Email.'),
 
   body('contacto')
+    .notEmpty().withMessage('Contact information is required.')
     .if(body('tipo_contacto').equals('Email'))
     .isEmail().withMessage('Must be a valid email address.')
     .if(body('tipo_contacto').equals('Telefono'))
-    .isMobilePhone().withMessage('Must be a valid phone number.')
+    .isMobilePhone().withMessage('Must be a valid mobile phone number.')
     .trim().escape()
 ];
-
-module.exports = {
-  validateDoctor
-};
