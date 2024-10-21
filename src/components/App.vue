@@ -113,6 +113,12 @@
         </form>
       </div>
     </div>
+
+    <!-- Alert message -->
+    <div v-if="isBlocked" class="alert alert-danger">
+      <p>{{ alertMessage }} {{ countdown > 0 ? `in ${countdown} seconds` : '' }}</p>
+    </div>
+
   </div>
 </template>
 
@@ -129,7 +135,11 @@ export default {
         especialidad_fk: "",
         fecha_nacimiento: "",
         tipo_contacto: "",
-        contacto: ""
+        contacto: "",
+        alertMessage: "",
+        isBlocked: false,
+        countdown: 0,
+        countdownInterval: null,
       },
       errors: {},
       alertMessage: "",
@@ -212,6 +222,12 @@ export default {
           });
 
           if (!response.ok) {
+            if (response.status === 429) {
+              this.alertMessage = "Too many requests, please try again later.";
+              this.isBlocked = true;
+              this.countdown = 15 * 60; // 15 minutos en segundos
+              this.startCountdown();
+            }
             throw new Error("Error adding doctor");
           }
 
@@ -451,5 +467,10 @@ table tr:nth-child(even) {
   border: 1px solid #f5c6cb;
   border-radius: 5px;
   margin-bottom: 20px;
+}
+
+.alert {
+  color: red;
+  font-weight: bold;
 }
 </style>
