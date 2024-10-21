@@ -38,7 +38,7 @@ INSERT INTO poblacion (doctor_fk, paciente_fk) VALUES
 INSERT INTO comunicacion_doc (doctor_fk, tipo, contacto) VALUES
 (1, 'Telefono', '1234567890'),
 (2, 'Celular', '9876543210'),
-(3, 'Correo electronico', 'juanlopez@example.com'),
+(3, 'Email', 'juanlopez@example.com'),
 (4, 'Telefono', '5551234567');
 
 -- Tabla comunicacion_pat

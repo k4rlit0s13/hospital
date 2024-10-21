@@ -38,7 +38,7 @@ CREATE TABLE poblacion (
 
 CREATE TABLE comunicacion_doc (
     doctor_fk INT UNSIGNED NOT NULL,
-    tipo ENUM('Telefono', 'Celular', 'Correo electronico') NOT NULL,
+    tipo ENUM('Telefono', 'Celular', 'Email') NOT NULL,
     contacto VARCHAR(255) NOT NULL,
     PRIMARY KEY (doctor_fk),
     FOREIGN KEY (doctor_fk) REFERENCES doctor(id),

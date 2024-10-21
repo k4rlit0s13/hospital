@@ -52,7 +52,7 @@ export const rateLimiter = rateLimit({
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 
-// Crear un limitador
+// limitador de añadir doctores
 export const limitadd = rateLimit({
   windowMs: 1000, // 15 minutos
   max: 1, // Limitar cada IP a 45 solicitudes por ventana

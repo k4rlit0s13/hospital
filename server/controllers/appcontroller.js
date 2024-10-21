@@ -53,13 +53,14 @@ static async addDoctor(req, res) {
 
     dbConnection = await connectToDatabase();
 
+    // Inserción del nuevo doctor
     const insertDoctorQuery = `
       INSERT INTO doctor (nombre, apellido, genero, especialidad_fk, fecha_nacimiento)
       VALUES (?, ?, ?, ?, ?);
     `;
     const [doctorResult] = await dbConnection.execute(insertDoctorQuery, [nombre, apellido, genero, especialidad_fk, fecha_nacimiento]);
 
-    // Inserción en la tabla de comunicación
+    // Inserción en la tabla de comunicación solo si el doctor se agregó correctamente
     const insertComunicacionQuery = `
       INSERT INTO comunicacion_doc (doctor_fk, tipo, contacto)
       VALUES (?, ?, ?);
@@ -68,14 +69,16 @@ static async addDoctor(req, res) {
 
     res.status(201).json({ message: 'Doctor added successfully' });
   } catch (error) {
+    // Si hay un error, la transacción no se ha completado, así que no subimos nada.
     console.error('Error adding doctor:', error);
-    res.status(500).json({ error: 'Failed to add doctor' });
+    res.status(500).json({ error: 'Failed to add doctor', details: error.message }); // Agrega detalles del error
   } finally {
     if (dbConnection) {
       dbConnection.release();
     }
   }
 }
+
 
 
   // Eliminar un doctor por ID
