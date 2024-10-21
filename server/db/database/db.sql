@@ -13,11 +13,12 @@ INSERT INTO especialidad (nombre) VALUES
 ('Cardiología');
 
 -- Tabla doctor
-INSERT INTO doctor (nombre, genero, especialidad_fk, fecha_nacimiento) VALUES
-('Juan Pérez', 'Masculino', 1, '1990-01-01'),
-('María García', 'Femenino', 2, '1992-06-15'),
-('Carlos López', 'Masculino', 3, '1985-03-20'),
-('Ana Rodríguez', 'Femenino', 4, '1995-09-10');
+INSERT INTO doctor (nombre, apellido, genero, especialidad_fk, fecha_nacimiento) VALUES
+('Juan', 'Pérez', 'Masculino', 1, '1990-01-01'),
+('María', 'García', 'Femenino', 2, '1992-06-15'),
+('Carlos', 'López', 'Masculino', 3, '1985-03-20'),
+('Ana', 'Rodríguez', 'Femenino', 4, '1995-09-10');
+
 
 -- Tabla paciente
 INSERT INTO paciente (nombre, apellido, genero, fecha_nacimiento, edad) VALUES

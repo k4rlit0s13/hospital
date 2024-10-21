@@ -12,6 +12,7 @@ class DoctorController {
         SELECT 
           d.id,
           d.nombre,
+          d.apellido,
           d.genero,
           e.nombre AS especialidad,
           cd.tipo,
@@ -37,43 +38,45 @@ class DoctorController {
     }
   }
 
-  // Agregar un nuevo doctor
-  static async addDoctor(req, res) {
-    let dbConnection;
+// Agregar un nuevo doctor
+static async addDoctor(req, res) {
+  let dbConnection;
 
-    // Verificar si hay errores de validación
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+  // Verificar si hay errores de validación
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
 
-    try {
-      const { nombre, apellido, genero, especialidad_fk, fecha_nacimiento, tipo_contacto, contacto } = req.body;
+  try {
+    const { nombre, apellido, genero, especialidad_fk, fecha_nacimiento, tipo_contacto, contacto } = req.body;
 
-      dbConnection = await connectToDatabase();
+    dbConnection = await connectToDatabase();
 
-      const insertDoctorQuery = `
-        INSERT INTO doctor (nombre, apellido, genero, especialidad_fk, fecha_nacimiento)
-        VALUES (?, ?, ?, ?, ?);
-      `;
-      const [doctorResult] = await dbConnection.execute(insertDoctorQuery, [nombre, apellido, genero, especialidad_fk, fecha_nacimiento]);
+    const insertDoctorQuery = `
+      INSERT INTO doctor (nombre, apellido, genero, especialidad_fk, fecha_nacimiento)
+      VALUES (?, ?, ?, ?, ?);
+    `;
+    const [doctorResult] = await dbConnection.execute(insertDoctorQuery, [nombre, apellido, genero, especialidad_fk, fecha_nacimiento]);
 
-      const insertComunicacionQuery = `
-        INSERT INTO comunicacion_doc (doctor_fk, tipo, contacto)
-        VALUES (?, ?, ?);
-      `;
-      await dbConnection.execute(insertComunicacionQuery, [doctorResult.insertId, tipo_contacto, contacto]);
+    // Inserción en la tabla de comunicación
+    const insertComunicacionQuery = `
+      INSERT INTO comunicacion_doc (doctor_fk, tipo, contacto)
+      VALUES (?, ?, ?);
+    `;
+    await dbConnection.execute(insertComunicacionQuery, [doctorResult.insertId, tipo_contacto, contacto]);
 
-      res.status(201).json({ message: 'Doctor added successfully' });
-    } catch (error) {
-      console.error('Error adding doctor:', error);
-      res.status(500).json({ error: 'Failed to add doctor' });
-    } finally {
-      if (dbConnection) {
-        dbConnection.release();
-      }
+    res.status(201).json({ message: 'Doctor added successfully' });
+  } catch (error) {
+    console.error('Error adding doctor:', error);
+    res.status(500).json({ error: 'Failed to add doctor' });
+  } finally {
+    if (dbConnection) {
+      dbConnection.release();
     }
   }
+}
+
 
   // Eliminar un doctor por ID
   static async deleteDoctor(req, res) {

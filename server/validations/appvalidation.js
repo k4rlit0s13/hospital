@@ -42,13 +42,21 @@ export const validateDoctor = [
 ];
 
 
-// appvalidations.js
 
 // Rate limiter middleware
 export const rateLimiter = rateLimit({
-  windowMs: 30 * 1000, // 30 seconds
-  max: 3, // Limit each IP to 3 requests per windowMs
-  message: 'Too many requests, please try again in 15 seconds.', // Message sent when limit is reached
+  windowMs: 15 * 60 * 1000, // 15 minutos
+  max: 25, // Limit each IP to 3 requests per windowMs
+  message: 'Too many requests, please try again in 15 minutes.', // Message sent when limit is reached
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+
+// Crear un limitador
+export const limitadd = rateLimit({
+  windowMs: 1000, // 15 minutos
+  max: 1, // Limitar cada IP a 45 solicitudes por ventana
+  message: 'Too many requests from this IP, please try again later.',
+  standardHeaders: true, // Devolver información sobre el límite en los encabezados
+  legacyHeaders: false, // No devolver encabezados `X-RateLimit-*`
 });

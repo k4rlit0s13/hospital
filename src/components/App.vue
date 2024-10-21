@@ -33,6 +33,7 @@
           <thead>
             <tr>
               <th>Name</th>
+              <th>Last Name</th>
               <th>ID</th>
               <th>Email/Phone</th>
               <th>Specialty</th>
@@ -43,6 +44,7 @@
           <tbody>
             <tr v-for="doctor in doctors" :key="doctor.id">
               <td>{{ doctor.nombre }}</td>
+              <td>{{ doctor.apellido }}</td>
               <td>{{ doctor.id }}</td>
               <td>{{ doctor.contacto }}</td>
               <td>{{ doctor.especialidad }}</td>

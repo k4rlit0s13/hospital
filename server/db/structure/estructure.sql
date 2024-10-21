@@ -12,11 +12,13 @@ CREATE TABLE especialidad (
 CREATE TABLE doctor (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
+    apellido VARCHAR(255) NOT NULL,  -- Agregado el campo apellido
     genero VARCHAR(255) NOT NULL,
     especialidad_fk INT UNSIGNED NOT NULL,
     fecha_nacimiento DATE NOT NULL,
     FOREIGN KEY (especialidad_fk) REFERENCES especialidad(id)
 );
+
 
 CREATE TABLE paciente (
     cedula INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
