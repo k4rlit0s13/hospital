@@ -71,7 +71,7 @@ static async addDoctor(req, res) {
   } catch (error) {
     // Si hay un error, la transacción no se ha completado, así que no subimos nada.
     console.error('Error adding doctor:', error);
-    res.status(500).json({ error: 'Failed to add doctor', details: error.message }); // Agrega detalles del error
+    res.status(500).json({ error: 'Failed to add doctor', details: error.message });
   } finally {
     if (dbConnection) {
       dbConnection.release();

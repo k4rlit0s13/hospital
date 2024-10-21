@@ -54,9 +54,26 @@ export const rateLimiter = rateLimit({
 
 // limitador de añadir doctores
 export const limitadd = rateLimit({
-  windowMs: 1000, // 15 minutos
-  max: 1, // Limitar cada IP a 45 solicitudes por ventana
+  windowMs: 15 * 60 * 1000, // 15 minutos
+  max: 45,
   message: 'Too many requests from this IP, please try again later.',
-  standardHeaders: true, // Devolver información sobre el límite en los encabezados
-  legacyHeaders: false, // No devolver encabezados `X-RateLimit-*`
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => {
+    console.log('Rate limit exceeded for IP:', req.ip);
+    res.status(429).json({ error: 'Too many requests, please try again later.' });
+  }
+});
+
+// limitador de añadir doctores
+export const limitdelete = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutos
+  max: 10,
+  message: 'Too many requests from this IP, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => {
+    console.log('Rate limit exceeded for IP:', req.ip);
+    res.status(429).json({ error: 'Too many requests, please try again later.' });
+  }
 });
